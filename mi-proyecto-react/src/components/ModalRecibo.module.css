@@ -2,17 +2,79 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .recibo {
-  background: white;
-  padding: 20px;
-  width: 300px;
-  border-radius: 5px;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 25px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  animation: aparecer 0.3s ease-in-out;
+}
+
+.recibo h3 {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
+
+.recibo p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+.botones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.botones button {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.botones button:first-child {
+  background-color: #28a745;
+  color: white;
+}
+
+.botones button:first-child:hover {
+  background-color: #218838;
+}
+
+.botones button:last-child {
+  background-color: #dc3545;
+  color: white;
+}
+
+.botones button:last-child:hover {
+  background-color: #c82333;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
