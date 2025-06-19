@@ -4,12 +4,18 @@ import Parqueadero from './components/Parqueadero';
 import Vehiculo from './components/Vehiculo';
 import ModalVehiculo from './components/ModalVehiculo';
 import ModalRecibo from './components/ModalRecibo';
+import ModalConfirmacion from "./components/ModalConfirmacion";
 
 function App() {
   const [vehiculos, setVehiculos] = useState([]);
   const [modal, setModal] = useState(null);
   const [recibo, setRecibo] = useState(null);
   const valorMinuto = 50; // --- Ajustar este valor según tarifa
+
+  const [mensaje, setMensaje] = useState(""); // Mensaje de alerta
+  const [tipoAlerta, setTipoAlerta] = useState("");
+
+  const [confirmacion, setConfirmacion] = useState(null); // Modal de confirmación
 
   const capacidadTotal = {
     // cupos por tipo de vehiculo
@@ -23,8 +29,13 @@ function App() {
     const ocupados = vehiculos.filter((v) => v.tipo === tipo).length;
 
     if (ocupados >= capacidadTotal[tipo]) {
-      alert(`🚫 No hay espacios disponibles para ${tipo}s`);
-      return;
+      setMensaje(`🚫 No hay espacios disponibles para ${tipo}s`);
+      setTipoAlerta("error");
+      setTimeout(() => {
+        setMensaje("");
+        setTipoAlerta("");
+      }, 3000);
+      return false; // 🚫 Falló
     }
 
     const nuevoVehiculo = {
@@ -34,6 +45,13 @@ function App() {
     };
 
     setVehiculos([nuevoVehiculo, ...vehiculos]);
+    setMensaje(`✅ Vehículo ${vehiculo.placa} ingresado`);
+    setTipoAlerta("exito");
+    setTimeout(() => {
+      setMensaje("");
+      setTipoAlerta("");
+    }, 3000);
+    return true; // ✅ Éxito
   };
 
   const actualizarVehiculo = (id, nuevaPlaca) => {
@@ -51,9 +69,15 @@ function App() {
   const pagarVehiculo = (id) => {
     eliminarVehiculo(id);
     setRecibo(null);
+
+    // Mostrar alerta visual de pago exitoso
+    setMensaje("✅ ¡Pago exitoso!");
+    setTipoAlerta("exito");
+
     setTimeout(() => {
-      alert('✅ ¡Pago exitoso!');
-    }, 500); // espera 300 ms que se cierre el modal
+      setMensaje("");
+      setTipoAlerta("");
+    }, 3000);
   };
 
   const cambiarAfiliado = (id) => {
@@ -63,9 +87,49 @@ function App() {
     setVehiculos(actualizadas);
   };
 
+  const procesarSalida = (id) => {
+    const vehiculo = vehiculos.find((v) => v.id === id);
+    if (!vehiculo) return;
+
+    const horaSalida = new Date();
+    const horaIngreso = new Date(vehiculo.horaIngreso);
+    const minutos = Math.ceil((horaSalida - horaIngreso) / 60000);
+    const total = minutos * valorMinuto;
+    const descuento = vehiculo.afiliado ? total * 0.05 : 0;
+    const totalFinal = total - descuento;
+
+    setRecibo({
+      id: vehiculo.id,
+      placa: vehiculo.placa,
+      horaIngreso: horaIngreso.toLocaleTimeString(),
+      horaSalida: horaSalida.toLocaleTimeString(),
+      minutos,
+      tarifa: valorMinuto,
+      total,
+      descuento,
+      totalFinal,
+    });
+  };
+
   return (
     <div className={estilos.contenedor}>
       <h1>🚘 Parqueo de Vehiculos</h1>
+
+      {mensaje && (
+        <div className={`${estilos.alerta} ${tipoAlerta === "error" ? estilos["alerta-error"] : estilos["alerta-exito"]}`}>
+          {mensaje}
+        </div>
+      )}
+
+      <ModalConfirmacion
+        datos={confirmacion}
+        onAceptar={() => {
+          procesarSalida(confirmacion.id);
+          setConfirmacion(null);
+        }}
+        onCancelar={() => setConfirmacion(null)}
+      />
+
       <Parqueadero
         agregarVehiculo={agregarVehiculo}
         capacidadTotal={capacidadTotal}
@@ -80,8 +144,7 @@ function App() {
             mostrarModal={setModal}
             actualizarVehiculo={actualizarVehiculo}
             cambiarAfiliado={cambiarAfiliado}
-            mostrarRecibo={setRecibo}
-            valorMinuto={valorMinuto}
+            mostrarConfirmacion={setConfirmacion}
           />
         ))}
       </div>

@@ -5,9 +5,8 @@ function Vehiculo({
   vehiculo,
   mostrarModal,
   actualizarVehiculo,  
-  cambiarAfiliado,
-  mostrarRecibo,
-  valorMinuto,
+  cambiarAfiliado,  
+  mostrarConfirmacion,  
 }) {
   const [modoEditar, setModoEditar] = useState(false);
   const [nuevaPlaca, setNuevaPlaca] = useState(vehiculo.placa);
@@ -17,31 +16,7 @@ function Vehiculo({
     actualizarVehiculo(vehiculo.id, nuevaPlaca);
     setModoEditar(false);
   };
-
-  const procesarSalida = () => {
-    const confirmar = window.confirm(`¿Desea dar salida al vehículo con placa ${vehiculo.placa}?`);
-    if (!confirmar) return;
-
-    const horaSalida = new Date();
-    const horaIngreso = new Date(vehiculo.horaIngreso);
-    const diferenciaMs = horaSalida - horaIngreso;
-    const minutos = Math.ceil(diferenciaMs / 60000);
-    const total = minutos * valorMinuto;
-
-    const recibo = {
-      id: vehiculo.id, // para poder eliminar luego de pagar
-      placa: vehiculo.placa,
-      horaIngreso: horaIngreso.toLocaleTimeString(),
-      horaSalida: horaSalida.toLocaleTimeString(),
-      minutos,
-      tarifa: valorMinuto,
-      total,
-      afiliado: vehiculo.afiliado,
-    };
-
-    mostrarRecibo(recibo);    
-  };
-
+  
   return (
     <div className={estilos.vehiculo}>
       <span className={estilos.afiliado} onClick={() => cambiarAfiliado(vehiculo.id)}>
@@ -56,7 +31,7 @@ function Vehiculo({
             onChange={(e) => setNuevaPlaca(e.target.value)}
           />
           <button className={estilos.boton} onClick={guardarCambio}>
-            Ingreso de vehiculo
+            Actualizar datos
           </button>
         </>
       ) : (
@@ -87,7 +62,7 @@ function Vehiculo({
             </button>
             <button
               className={estilos.boton}
-              onClick={procesarSalida}
+              onClick={() => mostrarConfirmacion({ id: vehiculo.id, placa: vehiculo.placa })}
             >
               Salida de vehiculo
             </button>

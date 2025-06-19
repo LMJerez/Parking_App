@@ -18,11 +18,13 @@ function Parqueadero({ agregarVehiculo, capacidadTotal, vehiculos }) {
       horaIngreso,
     };
 
-    agregarVehiculo(nuevoVehiculo);
-    setPlaca('');
-    setTipo('carro');
-    setColor('Blanco');
-    alert(`Vehículo ${placa} ingresa al parqueadero`);
+    const exito = agregarVehiculo(nuevoVehiculo);
+
+    if (exito) {
+      setPlaca('');
+      setTipo('carro');
+      setColor('Blanco');
+    }
   };
 
   const espaciosOcupados = {
