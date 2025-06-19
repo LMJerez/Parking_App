@@ -19,53 +19,14 @@
   max-width: 400px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   animation: aparecer 0.3s ease-in-out;
-}
-
-.recibo h3 {
-  margin-bottom: 1rem;
   text-align: center;
-  color: #333;
-}
-
-.recibo p {
-  margin: 0.5rem 0;
-  font-size: 1rem;
-  color: #444;
 }
 
 .botones {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1rem;
   margin-top: 2rem;
-}
-
-.botones button {
-  flex: 1;
-  padding: 0.6rem 1rem;
-  margin: 0 0.5rem;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.2s ease;
-}
-
-.botones button:first-child {
-  background-color: #28a745;
-  color: white;
-}
-
-.botones button:first-child:hover {
-  background-color: #218838;
-}
-
-.botones button:last-child {
-  background-color: #dc3545;
-  color: white;
-}
-
-.botones button:last-child:hover {
-  background-color: #c82333;
 }
 
 @keyframes aparecer {

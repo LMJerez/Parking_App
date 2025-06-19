@@ -1,70 +1,12 @@
-.contenedor {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; /* Centrado vertical */
-  min-height: 100vh;
-  padding-top: 0; /* Eliminado porque se centra verticalmente */
-  background-color: #dacdcd;
-}
-
-.titulo {
-  font-size: 32px;       /* Más grande y visible */
-  color: #2c3e50;         /* Tono más definido */
-  margin-bottom: 25px;    /* Espaciado inferior */
-  font-weight: bold;
-  text-align: center;
-  width: 100%;
-}
-
 .parqueadero {
   background-color: #ffffff;
-  padding: 35px;          /* Más espacio interno */
+  padding: 35px;
   max-width: 600px;
-  width: 90%;             /* Lejos de los bordes en pantallas pequeñas */
-  border-radius: 15px;    /* Más redondeo */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Sombra más suave y amplia */
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 25px;              /* Espacio entre elementos */
+  gap: 1rem;
   box-sizing: border-box;
-}
-
-.entrada {
-  padding: 14px;
-  font-size: 17px;
-  border-radius: 20px;    /* Bordes más redondeados */
-  border: 1px solid #bbb;
-  width: 94%;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.entrada:focus {
-  border-color: #3498db;  /* Azul suave en foco */
-  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
-  outline: none;
-}
-
-.boton {
-  padding: 14px;
-  background-color: #3498db; /* Cambio de azul para armonizar */
-  color: white;
-  font-size: 18px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-}
-
-.boton:hover {
-  background-color: #2980b9;
-}
-
-.boton:active {
-  transform: scale(0.98);
-}
-
-.parqueadero div {
-  display: flex;
-  gap: 25px; /* Un poco más de separación entre selects */
 }

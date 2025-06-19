@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import estilos from './Parqueadero.module.css';
+import estilosGlobales from '../App.module.css';
 
 function Parqueadero({ agregarVehiculo, capacidadTotal, vehiculos }) {
   const [placa, setPlaca] = useState('');
@@ -36,15 +37,15 @@ function Parqueadero({ agregarVehiculo, capacidadTotal, vehiculos }) {
   return (
     <form className={estilos.parqueadero} onSubmit={manejarEnvio}>
       <input
-        className={estilos.entrada}
+        className={estilosGlobales.entrada}
         placeholder="Placa del vehículo"
         value={placa}
-        onChange={(e) => setPlaca(e.target.value)}
+        onChange={(e) => setPlaca(e.target.value.toUpperCase())}
       />
 
-      <div>
+      <div className={estilosGlobales.fila}>
         <select
-          className={estilos.entrada}
+          className={estilosGlobales.entrada}
           value={tipo}
           onChange={(e) => setTipo(e.target.value)}
         >
@@ -53,7 +54,7 @@ function Parqueadero({ agregarVehiculo, capacidadTotal, vehiculos }) {
           <option value="camion">Camion</option>
         </select>
         <select
-          className={estilos.entrada}
+          className={estilosGlobales.entrada}
           value={color}
           onChange={(e) => setColor(e.target.value)}
         >
@@ -66,19 +67,13 @@ function Parqueadero({ agregarVehiculo, capacidadTotal, vehiculos }) {
         </select>
       </div>
 
-      <div className={estilos.boton_contadores}>
-        <button className={estilos.boton} type="submit">
-          Ingresar vehiculo
+      <div className={estilosGlobales.boton_contadores}>
+        <button className={estilosGlobales.boton} type="submit">
+          Ingresar vehículo
         </button>
-        <p>
-          🚗 Carros: {espaciosOcupados.carro} / {capacidadTotal.carro}
-        </p>
-        <p>
-          🏍️ Motos: {espaciosOcupados.moto} / {capacidadTotal.moto}
-        </p>
-        <p>
-          🚛 Camiones: {espaciosOcupados.camion} / {capacidadTotal.camion}
-        </p>
+        <p>🚗 Carros: {espaciosOcupados.carro} / {capacidadTotal.carro}</p>
+        <p>🏍️ Motos: {espaciosOcupados.moto} / {capacidadTotal.moto}</p>
+        <p>🚛 Camiones: {espaciosOcupados.camion} / {capacidadTotal.camion}</p>
       </div>
     </form>
   );

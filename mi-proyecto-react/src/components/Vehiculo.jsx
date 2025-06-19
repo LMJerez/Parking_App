@@ -1,12 +1,13 @@
 import { useState } from "react";
 import estilos from "./Vehiculo.module.css";
+import estilosGlobales from "../App.module.css"; // Para usar .boton y .placa
 
 function Vehiculo({
   vehiculo,
   mostrarModal,
-  actualizarVehiculo,  
-  cambiarAfiliado,  
-  mostrarConfirmacion,  
+  actualizarVehiculo,
+  cambiarAfiliado,
+  mostrarConfirmacion,
 }) {
   const [modoEditar, setModoEditar] = useState(false);
   const [nuevaPlaca, setNuevaPlaca] = useState(vehiculo.placa);
@@ -16,7 +17,7 @@ function Vehiculo({
     actualizarVehiculo(vehiculo.id, nuevaPlaca);
     setModoEditar(false);
   };
-  
+
   return (
     <div className={estilos.vehiculo}>
       <span className={estilos.afiliado} onClick={() => cambiarAfiliado(vehiculo.id)}>
@@ -26,45 +27,50 @@ function Vehiculo({
       {modoEditar ? (
         <>
           <input
-            className={estilos.entrada}
+            className={estilosGlobales.entrada}
             value={nuevaPlaca}
-            onChange={(e) => setNuevaPlaca(e.target.value)}
+            onChange={(e) => setNuevaPlaca(e.target.value.toUpperCase())}
           />
-          <button className={estilos.boton} onClick={guardarCambio}>
+          <button className={estilosGlobales.boton} onClick={guardarCambio}>
             Actualizar datos
           </button>
         </>
       ) : (
         <>
-          <p>Vehiculo placa:</p>
-          <div>
-            <h3>{vehiculo.placa}</h3>
-          </div>          
-          <p>Tipo :
-            <strong> {vehiculo.tipo}</strong> Color:<strong> {vehiculo.color}</strong>
-          </p>          
-          <p>⏱️Hora ingreso: 
-            <strong> {new Date(vehiculo.horaIngreso).toLocaleTimeString()}</strong>
+          <p>Vehículo placa:</p>
+          <div className={estilosGlobales.placa}>{vehiculo.placa}</div>
+
+          <p>
+            Tipo: <strong>{vehiculo.tipo}</strong> &nbsp;|&nbsp; Color:
+            <strong> {vehiculo.color}</strong>
+          </p>
+          <p>
+            ⏱️Hora ingreso:{" "}
+            <strong>
+              {new Date(vehiculo.horaIngreso).toLocaleTimeString()}
+            </strong>
           </p>
 
           <div className={estilos.botones}>
             <button
-              className={estilos.boton}
+              className={estilosGlobales.boton}
               onClick={() => mostrarModal(vehiculo)}
             >
               Ver
             </button>
             <button
-              className={estilos.boton}
+              className={estilosGlobales.boton}
               onClick={() => setModoEditar(true)}
             >
               Editar
             </button>
             <button
-              className={estilos.boton}
-              onClick={() => mostrarConfirmacion({ id: vehiculo.id, placa: vehiculo.placa })}
+              className={estilosGlobales.boton}
+              onClick={() =>
+                mostrarConfirmacion({ id: vehiculo.id, placa: vehiculo.placa })
+              }
             >
-              Salida de vehiculo
+              Salida de vehículo
             </button>
           </div>
         </>
