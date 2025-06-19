@@ -1,6 +1,6 @@
-import { useState } from "react";
-import estilos from "./Vehiculo.module.css";
-import estilosGlobales from "../App.module.css"; // Para usar .boton y .placa
+import { useState } from 'react';
+import estilos from './Vehiculo.module.css';
+import estilosGlobales from '../App.module.css';
 
 function Vehiculo({
   vehiculo,
@@ -13,15 +13,18 @@ function Vehiculo({
   const [nuevaPlaca, setNuevaPlaca] = useState(vehiculo.placa);
 
   const guardarCambio = () => {
-    if (nuevaPlaca.trim() === "") return;
+    if (nuevaPlaca.trim() === '') return;
     actualizarVehiculo(vehiculo.id, nuevaPlaca);
     setModoEditar(false);
   };
 
   return (
     <div className={estilos.vehiculo}>
-      <span className={estilos.afiliado} onClick={() => cambiarAfiliado(vehiculo.id)}>
-        {vehiculo.afiliado ? "⭐️Afiliado" : "☆Particular"}
+      <span
+        className={estilos.afiliado}
+        onClick={() => cambiarAfiliado(vehiculo.id)}
+      >
+        {vehiculo.afiliado ? '⭐️Afiliado' : '☆Particular'}
       </span>
 
       {modoEditar ? (
@@ -45,7 +48,7 @@ function Vehiculo({
             <strong> {vehiculo.color}</strong>
           </p>
           <p>
-            ⏱️Hora ingreso:{" "}
+            ⏱️Hora ingreso:{' '}
             <strong>
               {new Date(vehiculo.horaIngreso).toLocaleTimeString()}
             </strong>
@@ -66,9 +69,7 @@ function Vehiculo({
             </button>
             <button
               className={estilosGlobales.boton}
-              onClick={() =>
-                mostrarConfirmacion({ id: vehiculo.id, placa: vehiculo.placa })
-              }
+              onClick={() => mostrarConfirmacion(vehiculo)}
             >
               Salida de vehículo
             </button>

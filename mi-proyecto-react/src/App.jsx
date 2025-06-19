@@ -4,21 +4,18 @@ import Parqueadero from './components/Parqueadero';
 import Vehiculo from './components/Vehiculo';
 import ModalVehiculo from './components/ModalVehiculo';
 import ModalRecibo from './components/ModalRecibo';
-import ModalConfirmacion from "./components/ModalConfirmacion";
+import ModalConfirmacion from './components/ModalConfirmacion';
 
 function App() {
   const [vehiculos, setVehiculos] = useState([]);
   const [modal, setModal] = useState(null);
   const [recibo, setRecibo] = useState(null);
-  const valorMinuto = 50; // --- Ajustar este valor según tarifa
-
-  const [mensaje, setMensaje] = useState(""); // Mensaje de alerta
-  const [tipoAlerta, setTipoAlerta] = useState("");
-
-  const [confirmacion, setConfirmacion] = useState(null); // Modal de confirmación
+  const [confirmacion, setConfirmacion] = useState(null);
+  const [mensaje, setMensaje] = useState('');
+  const [tipoAlerta, setTipoAlerta] = useState('');
+  const valorMinuto = 50;
 
   const capacidadTotal = {
-    // cupos por tipo de vehiculo
     carro: 2,
     moto: 3,
     camion: 2,
@@ -30,12 +27,12 @@ function App() {
 
     if (ocupados >= capacidadTotal[tipo]) {
       setMensaje(`🚫 No hay espacios disponibles para ${tipo}s`);
-      setTipoAlerta("error");
+      setTipoAlerta('error');
       setTimeout(() => {
-        setMensaje("");
-        setTipoAlerta("");
+        setMensaje('');
+        setTipoAlerta('');
       }, 3000);
-      return false; // 🚫 Falló
+      return false;
     }
 
     const nuevoVehiculo = {
@@ -46,12 +43,12 @@ function App() {
 
     setVehiculos([nuevoVehiculo, ...vehiculos]);
     setMensaje(`✅ Vehículo ${vehiculo.placa} ingresado`);
-    setTipoAlerta("exito");
+    setTipoAlerta('exito');
     setTimeout(() => {
-      setMensaje("");
-      setTipoAlerta("");
+      setMensaje('');
+      setTipoAlerta('');
     }, 3000);
-    return true; // ✅ Éxito
+    return true;
   };
 
   const actualizarVehiculo = (id, nuevaPlaca) => {
@@ -69,14 +66,11 @@ function App() {
   const pagarVehiculo = (id) => {
     eliminarVehiculo(id);
     setRecibo(null);
-
-    // Mostrar alerta visual de pago exitoso
-    setMensaje("✅ ¡Pago exitoso!");
-    setTipoAlerta("exito");
-
+    setMensaje('✅ ¡Pago exitoso!');
+    setTipoAlerta('exito');
     setTimeout(() => {
-      setMensaje("");
-      setTipoAlerta("");
+      setMensaje('');
+      setTipoAlerta('');
     }, 3000);
   };
 
@@ -87,18 +81,15 @@ function App() {
     setVehiculos(actualizadas);
   };
 
-  const procesarSalida = (id) => {
-    const vehiculo = vehiculos.find((v) => v.id === id);
+  const procesarSalida = (vehiculo) => {
     if (!vehiculo) return;
 
     const horaSalida = new Date();
     const horaIngreso = new Date(vehiculo.horaIngreso);
     const minutos = Math.ceil((horaSalida - horaIngreso) / 60000);
     const total = minutos * valorMinuto;
-    const descuento = vehiculo.afiliado ? total * 0.05 : 0;
-    const totalFinal = total - descuento;
 
-    setRecibo({
+    const recibo = {
       id: vehiculo.id,
       placa: vehiculo.placa,
       horaIngreso: horaIngreso.toLocaleTimeString(),
@@ -106,9 +97,10 @@ function App() {
       minutos,
       tarifa: valorMinuto,
       total,
-      descuento,
-      totalFinal,
-    });
+      afiliado: vehiculo.afiliado,
+    };
+
+    setRecibo(recibo);
   };
 
   return (
@@ -116,7 +108,13 @@ function App() {
       <h1>🚘 Parqueo de Vehiculos</h1>
 
       {mensaje && (
-        <div className={`${estilos.alerta} ${tipoAlerta === "error" ? estilos["alerta-error"] : estilos["alerta-exito"]}`}>
+        <div
+          className={`${estilos.alerta} ${
+            tipoAlerta === 'error'
+              ? estilos['alerta-error']
+              : estilos['alerta-exito']
+          }`}
+        >
           {mensaje}
         </div>
       )}
@@ -124,7 +122,7 @@ function App() {
       <ModalConfirmacion
         datos={confirmacion}
         onAceptar={() => {
-          procesarSalida(confirmacion.id);
+          procesarSalida(confirmacion);
           setConfirmacion(null);
         }}
         onCancelar={() => setConfirmacion(null)}
