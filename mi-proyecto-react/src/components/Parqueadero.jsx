@@ -36,46 +36,53 @@ function Parqueadero({ agregarVehiculo, capacidadTotal, vehiculos }) {
 
   return (
     <form className={estilos.parqueadero} onSubmit={manejarEnvio}>
-      <input
-        className={estilosGlobales.entrada}
-        placeholder="Placa del vehículo"
-        value={placa}
-        onChange={(e) => setPlaca(e.target.value.toUpperCase())}
-      />
-
       <div className={estilosGlobales.fila}>
-        <select
-          className={estilosGlobales.entrada}
-          value={tipo}
-          onChange={(e) => setTipo(e.target.value)}
-        >
-          <option value="carro">Carro</option>
-          <option value="moto">Moto</option>
-          <option value="camion">Camion</option>
-        </select>
-        <select
-          className={estilosGlobales.entrada}
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-        >
-          <option value="Blanco">Blanco</option>
-          <option value="Negro">Negro</option>
-          <option value="Rojo">Rojo</option>
-          <option value="Azul">Azul</option>
-          <option value="Gris">Gris</option>
-          <option value="Amarillo">Amarillo</option>
-        </select>
+        <div className={estilos.columnaIzquierda}>
+          <input
+            className={estilosGlobales.entrada}
+            placeholder="Placa del vehículo"
+            value={placa}
+            onChange={(e) => setPlaca(e.target.value.toUpperCase())}
+          />
+
+          <select
+            className={estilosGlobales.entrada}
+            value={tipo}
+            onChange={(e) => setTipo(e.target.value)}
+          >
+            <option value="carro">Carro</option>
+            <option value="moto">Moto</option>
+            <option value="camion">Camion</option>
+          </select>
+
+          <select
+            className={estilosGlobales.entrada}
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+          >
+            <option value="Blanco">Blanco</option>
+            <option value="Negro">Negro</option>
+            <option value="Rojo">Rojo</option>
+            <option value="Azul">Azul</option>
+            <option value="Gris">Gris</option>
+            <option value="Amarillo">Amarillo</option>
+          </select>
+        </div>
+
+        <div className={estilos.columnaDerecha}>
+          <p>🚗 Carros: {espaciosOcupados.carro} / {capacidadTotal.carro}</p>
+          <p>🏍️ Motos: {espaciosOcupados.moto} / {capacidadTotal.moto}</p>
+          <p>🚛 Camiones: {espaciosOcupados.camion} / {capacidadTotal.camion}</p>
+        </div>
       </div>
 
       <div className={estilosGlobales.boton_contadores}>
         <button className={estilosGlobales.boton} type="submit">
           Ingresar vehículo
         </button>
-        <p>🚗 Carros: {espaciosOcupados.carro} / {capacidadTotal.carro}</p>
-        <p>🏍️ Motos: {espaciosOcupados.moto} / {capacidadTotal.moto}</p>
-        <p>🚛 Camiones: {espaciosOcupados.camion} / {capacidadTotal.camion}</p>
       </div>
     </form>
+
   );
 }
 
